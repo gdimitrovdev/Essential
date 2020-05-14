@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>To-Do App</title>
+		<title>Essential</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
+			body, html{
+				padding:0px;
+				margin:0px;
+			}
+			html{
+                scroll-behavior:smooth;
+			}
 			.topnav {
 				background-color: #333;
 				overflow: hidden;
+				position:fixed;
+				top:0px;
+				width:100%;
 			}
 			p {
 				float:left;
@@ -58,20 +68,85 @@
               line-height: 1.33;
               border-radius: 25px;
             }
+            .homepage{
+                background-color:black;
+                display:flex;
+                height:100vh;
+                align-items:center;
+            }
+            .topnav a{
+                float:right;
+                margin:20px 5px;
+                color:white;
+            }
+            @media screen and (max-width: 600px){
+                .homepage{
+                    flex-direction:column;
+                }
+                .homepage img{
+                    height:100px;
+                    margin-top:200px;
+                }
+                .preview{
+                    margin-top:60px;
+                }
+            }
+            .todos{
+                min-height:100vh;
+                display:flex;
+                background-color:white;
+                flex-direction:column;
+                align-items:center;
+            }
+            .preview{
+                color:white;
+                border:1px solid white;
+                border-radius:10px;
+                padding:20px;
+            }
+            .preview a{
+                color:white;
+            }
+            .todos a:hover{
+                text-decoration:underline;
+            }
+            .preview a:hover{
+                text-decoration:underline;
+            }
+            .topnav img{
+                margin:12px;
+                border-radius:6px;
+            }
 		</style>
 	</head>
 	<body>
 		<div class="topnav">
-			<p>To-Do App</p>
-			<form action="{% url 'add' %}",  method="POST">
+			<img height="50px;" src="https://img.techpowerup.org/200513/essential.png">
+            <a href="accounts/logout" class="log">Logout</a>
+		</div>
+        <div class="homepage" id="home">
+			<div class="ess" style="margin-right:20px;">
+                <img height="300px;" src="https://img.techpowerup.org/200513/essential.png">
+                <br>
+                <h3 style="color:white; margin-left:20px;">Everything you need to organize your day</h3>
+            </div>
+            <div class="preview">
+                This website contains:
+                <br>
+                <ul>
+                    <li><a href="#todo">Todo tracker</a></li>
+                </ul>
+            </div>
+        </div>
+		<div class="todos" id="todo">
+            <a style="margin-top:70px;" href="#home"><h5>Go back home ↑</h5></a>
+            <form action="{% url 'add' %}"  method="POST">
 				{% csrf_token %}
 				{{ form.text }}
 				<span>
 					<button type='submit' class="btn">ADD</button>
 				</span>
 			</form>
-		</div>
-		<div class="todos">
 			<table>
 				{% for todo in todo_list %}
                 <tr>
@@ -80,9 +155,6 @@
                 </tr>
 				{% endfor %}
 			</table>
-		</div>
-		<div class="bottom">
-			<a href="accounts/logout" class="log">Logout</a>
 		</div>
 	</body>
 </html>

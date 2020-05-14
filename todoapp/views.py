@@ -18,12 +18,12 @@ def add(request):
 		if form.is_valid:
 			newTodo=Todo(user=request.user,text=request.POST['text'])
 			newTodo.save()
-			return redirect('../')
+			return redirect('../#todo')
 
 def delete(request, todo_id):
 	item=request.user.todos.get(pk=todo_id)
 	item.delete()
-	return redirect('../../')
+	return redirect('../../#todo')
 	
 def register(request):
 	form=UserCreationForm()
