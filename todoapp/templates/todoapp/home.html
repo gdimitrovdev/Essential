@@ -69,10 +69,12 @@
               border-radius: 25px;
             }
             .homepage{
-                background-color:black;
-                display:flex;
-                height:100vh;
-                align-items:center;
+				background: #009FFF;  /* fallback for old browsers */
+				background: -webkit-linear-gradient(to right, #ec2F4B, #009FFF);  /* Chrome 10-25, Safari 5.1-6 */
+				background: linear-gradient(to right, #ec2F4B, #009FFF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+               	display:flex;
+               	min-height:100vh;
+               	align-items:center;
             }
             .topnav a{
                 float:right;
@@ -89,6 +91,17 @@
                 }
                 .preview{
                     margin-top:60px;
+                }
+                .ess{
+                	margin:0px;
+                	text-align:center;
+                	margin-right:0px;
+                    margin-left:0px;
+                    margin-bottom:0px;
+                    margin-top:120px;
+                }
+                .preview{
+                    margin-bottom:60px;
                 }
             }
             .todos{
@@ -126,14 +139,14 @@
 		</div>
         <div class="homepage" id="home">
 			<div class="ess" style="margin-right:20px;">
-                <img height="300px;" src="https://img.techpowerup.org/200513/essential.png">
+                <img style="margin:25px; border-radius:14px;" height="250px;" src="https://img.techpowerup.org/200513/essential.png">
                 <br>
-                <h3 style="color:white; margin-left:20px;">Everything you need to organize your day</h3>
+                <h3 style="color:white; margin:25px; font-size:34px;">Everything you need to organize your day</h3>
             </div>
             <div class="preview">
-                This website contains:
+				<p style="color:white; font-size:34px;">This website contains:</p>
                 <br>
-                <ul>
+                <ul style="color:white; font-size:28px;">
                     <li><a href="#todo">Todo tracker</a></li>
                 </ul>
             </div>
