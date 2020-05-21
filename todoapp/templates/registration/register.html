@@ -3,12 +3,84 @@
 	<head>
 		<title>Register</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			body{
+				background: #36D1DC;  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+				padding:0px;
+				margin:0px;
+			}
+			.helptext{
+				display:none;
+			}
+			ul{
+				display:none;
+			}
+			.errorlist{
+				display:block;
+				color:white;
+				font-size:22px;
+			}
+			.topnav{
+				overflow:hidden;
+				border:1px solid #000000;
+				background-color:#FFFFFF;
+				border-radius:8px;
+				margin:8px;
+				position:fixed;
+				top:0px;
+				display:block;
+				width:98.7%;
+			}
+			.logo{
+				border-radius:7px;
+				margin:20px;
+			}
+			.page{
+				display:flex;
+				justify-content:center;
+				align-items:center;
+				min-height:100vh;
+				flex-direction:column;
+			}
+			.page a{
+				text-decoration:none;
+				color:white;
+				border:1px solid white;
+				border-radius:5px;
+				padding:8px;
+				font-size:23px;
+			}
+			.btn{
+				background-color:Transparent;
+				border:1px solid white;
+				border-radius:5px;
+				padding:8px;
+				color:white;
+				font-size:23px;
+			}
+			label[for="id_username"],label[for="id_password1"],label[for="id_password2"]{
+				color:white;
+				font-size:30px;
+			}
+			@media screen and (max-width:600px){
+				.topnav{
+					width:94.3% !important;
+				}
+				.topnav p{
+					font-size: 13px;
+				}
+			}
+		</style>
 	</head>
 	<body>
-		<form method="post" action="{% url 'register' %}">
-			{% csrf_token %}
-			{{ form }}
-			<button type="submit">Register</button>
-		</form>
+        <div class="page">
+            <form method="post" action="{% url 'register' %}" style="margin-left:10px;">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn">Register</button>
+            </form>
+        </div>
 	</body>
 </html>

@@ -3,13 +3,57 @@
 	<head>
 		<title>LOGIN</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			body{
+                background: #36D1DC;  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                padding:0px;
+                margin:0px;
+            }
+            .page{
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                min-height:100vh;
+                flex-direction:column;
+            }
+            .page a{
+                text-decoration:none;
+                color:white;
+                border:1px solid white;
+                border-radius:5px;
+                padding:8px;
+                font-size:23px;
+            }
+            .btn{
+                background-color:transparent;
+                border:1px solid white;
+                border-radius:5px;
+                padding:8px;
+                color:white;
+                font-size:23px;
+            }
+            #id_username, #id_password{
+                height:20px;
+                padding-top:7px;
+                padding-bottom:2px;
+            }
+            label[for="id_username"], label[for="id_password"]{
+                color:white;
+                font-size:30px;
+                padding-top:1px;
+            }
+		</style>
 	</head>
 	<body>
-		<form method="post">
-			{% csrf_token %}
-			{{ form.as_p }}
-			<button type="submit">Login</button>
-		</form>
-		<a href="../../register">Sign up</a>
+        <div class="page">
+            <form method="post" style="text-align:center;">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn">Login</button>
+                <a href="../../register">Sign up</a>
+            </form>
+        </div>
 	</body>
 </html>

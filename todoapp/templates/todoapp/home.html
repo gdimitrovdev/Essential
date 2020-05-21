@@ -59,6 +59,7 @@
 			.p{
 			    color:black;
 			    font-size:17px;
+			    margin-bottom:1px;
 			}
 			.btn-circle.btn-lg {
               width: 50px;
@@ -69,9 +70,9 @@
               border-radius: 25px;
             }
             .homepage{
-				background: #009FFF;  /* fallback for old browsers */
-				background: -webkit-linear-gradient(to right, #ec2F4B, #009FFF);  /* Chrome 10-25, Safari 5.1-6 */
-				background: linear-gradient(to right, #ec2F4B, #009FFF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+				background: #36D1DC;  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
                	display:flex;
                	min-height:100vh;
                	align-items:center;
@@ -115,7 +116,7 @@
                 color:white;
                 border:1px solid white;
                 border-radius:10px;
-                padding:20px;
+                padding:11px;
             }
             .preview a{
                 color:white;
@@ -129,6 +130,13 @@
             .topnav img{
                 margin:12px;
                 border-radius:6px;
+            }
+            .files{
+                min-height:100vh;
+                display:flex;
+                align-items:center;
+                margin:50px;
+                flex-direction:column;
             }
 		</style>
 	</head>
@@ -144,31 +152,60 @@
                 <h3 style="color:white; margin:25px; font-size:34px;">Everything you need to organize your day</h3>
             </div>
             <div class="preview">
-				<p style="color:white; font-size:34px;">This website contains:</p>
-                <br>
-                <ul style="color:white; font-size:28px;">
-                    <li><a href="#todo">Todo tracker</a></li>
-                </ul>
+				<p style="color:white; font-size:34px;">Go to:</p>
+                <div style="margin-top:140px;">
+                    <ul style="color:white; font-size:28px;">
+                        <li><a href="#todo">Todo tracker</a></li>
+                        <li><a href="#files">File Container</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 		<div class="todos" id="todo">
             <a style="margin-top:70px;" href="#home"><h5>Go back home ↑</h5></a>
             <form action="{% url 'add' %}"  method="POST">
 				{% csrf_token %}
+                <p style="color:black;">Enter the task:</p>
+                <br>
 				{{ form.text }}
+                <br>
+                <p style="color:black;">Enter date in yyyy-mm-dd format:</p>
+                <br>
+                {{form.date}}
 				<span>
 					<button type='submit' class="btn">ADD</button>
 				</span>
 			</form>
-			<table>
+			<div>
 				{% for todo in todo_list %}
-                <tr>
-                    <td><p class="p">{{ todo.text }}</p></td>
-                    <td><a href="{% url 'delete' todo.id %}">Delete/Completed</a></td>
-                </tr>
+                <div style="width:340px; height:150px; display:flex; align-items:center; flex-direction:column; margin-bottom:40px;border:1px solid black; border-radius:8px;">
+                    <p class="p">{{ todo.text}}  |  Due to:{{todo.date}}</p>
+                    <div style="display:flex; align-items:center;">
+                        <a href="{% url 'delete' todo.id %}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete/Completed</a>
+                        <form method="post" action="{%url 'edit' todo.id%}">
+                            {%csrf_token%}
+                            {{editForm}}
+                            <button type="submit" style="border:1px solid black; padding:2px; border-radius:8px;">Edit</button>
+                        </form>
+                    </div>
+                </div>
 				{% endfor %}
-			</table>
+			</div>
 		</div>
+        <div class="files" id="files">
+            <a style="margin-top:70px;" href="#home"><h5>Go back home ↑</h5></a>
+            <form action="{%url 'filepost'%}" method="post" enctype="multipart/form-data" style="border-bottom:2px solid black;">
+                {%csrf_token%}
+                {{fileForm}}
+                <button type="submit">Post File</button>
+            </form>
+            {%for file in files%}
+            <div style="margin-top:20px; border:1px solid black; border-radius:6px; padding:5px;">
+                <a href="{{file.file.url}}" download>{{file.file.name}}</a>
+            </div>
+            <a href="{%url 'deleteFile' file.id%}" style="margin-bottom:20px;">Delete</a>
+            {%endfor%}
+        </div>
 	</body>
 </html>
 	
