@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def home(request):
-    todo_list=request.user.todos.order_by('id')
+    todo_list=request.user.todos.order_by('date')
     form=TodoForm()
     editForm=EditForm()
     fileForm=FileForm()
