@@ -1,3 +1,4 @@
+# Django imports
 from django.shortcuts import render, redirect
 from .models import Todo, File
 from .forms import TodoForm, EditForm, FileForm
@@ -7,14 +8,21 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def home(request):
+    # get user's todos
     todo_list=request.user.todos.order_by('date')
     form=TodoForm()
+
+    # get needed forms
     editForm=EditForm()
     fileForm=FileForm()
+
+    # get user's files
     files=request.user.files.order_by('id')
+
     context={'todo_list':todo_list,'form':form, 'editForm':editForm, 'fileForm':fileForm, 'files':files}
     return render(request,"todoapp/home.html",context)
-	
+
+# function to add todos
 def add(request):
     if request.method=='POST':
         form=TodoForm(request.POST)
@@ -23,11 +31,13 @@ def add(request):
             newTodo.save()
     return redirect('../#todo')
 
+# function to delete todos
 def delete(request, todo_id):
     item=request.user.todos.get(pk=todo_id)
     item.delete()
     return redirect('../../#todo')
-	
+
+# register new users
 def register(request):
     form=UserCreationForm()
     if request.method=="POST":
@@ -42,6 +52,7 @@ def register(request):
     context={"form":form}
     return render(request,"registration/register.html",context)
 
+# edit existing todos
 def edit(request, id):
     form=EditForm()
     if request.method=='POST':
@@ -54,16 +65,17 @@ def edit(request, id):
             todo.save()
     return redirect('../../#todo')
 
+# add files to user's storage
 def filepost(request):
     fileForm=FileForm()
     if request.method=='POST':
-        print(1)
         fileForm=FileForm(request.POST, request.FILES)
         if fileForm.is_valid():
             newupload=File(user=request.user, file=request.FILES['file'])
             newupload.save()
     return redirect('../#files')
 
+# delete files from storage
 def deleteFile(request,id):
     file=File.objects.get(pk=id)
     file.delete()
