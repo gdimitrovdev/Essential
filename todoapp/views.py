@@ -27,7 +27,8 @@ def add(request):
     if request.method=='POST':
         form=TodoForm(request.POST)
         if form.is_valid():
-            newTodo=Todo(user=request.user,text=request.POST['text'], date=request.POST['date'])
+            date=request.POST['date_year']+'-'+request.POST['date_month']+'-'+request.POST['date_day']
+            newTodo=Todo(user=request.user,text=request.POST['text'], date=date)
             newTodo.save()
     return redirect('../#todo')
 
