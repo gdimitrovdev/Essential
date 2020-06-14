@@ -137,6 +137,27 @@
                 align-items:center;
                 flex-direction:column;
             }
+            .cl{
+                width:340px;
+                height:150px;
+                display:flex;
+                align-items:center;
+                flex-direction:column;
+                margin-bottom:40px;
+                border-radius:8px;
+                -webkit-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+                -moz-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+                box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+            }
+            .cl2{
+                margin-top:20px;
+                max-width:250px;
+                border-radius:6px;
+                padding:5px;
+                -webkit-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+                -moz-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+                box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+            }
 		</style>
 	</head>
 	<body>
@@ -178,7 +199,7 @@
 			</form>
 			<div>
 				{% for todo in todo_list %}
-                <div style="width:340px; height:150px; display:flex; align-items:center; flex-direction:column; margin-bottom:40px;border:1px solid black; border-radius:8px;">
+                <div class="cl">
                     <p class="p">{{ todo.text}}  |  Due to:{{todo.date}}</p>
                     <div style="display:flex; align-items:center;">
                         <a href="{% url 'delete' todo.id %}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete/Completed</a>
@@ -200,10 +221,10 @@
                 <button type="submit">Post File</button>
             </form>
             {%for file in files%}
-            <div style="margin-top:20px; border:1px solid black; border-radius:6px; padding:5px;">
+            <div class="cl2">
                 <a href="{{file.file.url}}" download>{{file.file.name}}</a>
             </div>
-            <a href="{%url 'deleteFile' file.id%}" style="margin-bottom:20px;">Delete</a>
+            <a href="{%url 'deleteFile' file.id%}" style="margin-bottom:20px; margin-top:20px;">Delete</a>
             {%endfor%}
         </div>
 	</body>
