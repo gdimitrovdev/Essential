@@ -203,7 +203,11 @@
 			<div>
 				{% for todo in todo_list %}
                 <div class="cl">
+                    {% if todo.is_passed %}
+                    <p class="p" style="color: red">{{ todo.text}}  |  Due to:{{todo.date}}</p>
+                    {% else %}
                     <p class="p">{{ todo.text}}  |  Due to:{{todo.date}}</p>
+                    {% endif %}
                     <div style="display:flex; align-items:center;">
                         <a href="{% url 'delete' todo.id %}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete/Completed</a>
                         <form method="post" action="{%url 'edit' todo.id%}">
