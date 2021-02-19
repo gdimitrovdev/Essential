@@ -64,8 +64,10 @@ def edit(request, id):
         form = EditForm(request.POST)
         if form.is_valid:
             new_text = request.POST['text']
+            new_date = request.POST['date_year']+'-'+request.POST['date_month']+'-'+request.POST['date_day']
             todo = Todo.objects.get(pk=id)
             todo.text = new_text
+            todo.date = new_date
             todo.save()
     return redirect('../../#todo')
 
