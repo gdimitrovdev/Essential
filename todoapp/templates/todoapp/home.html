@@ -174,6 +174,23 @@
                 padding: 3px;
                 text-align: center;
             }
+            .daily{
+                min-height:100vh;
+                display:flex;
+                background-color:#e9ebee;
+                flex-direction:column;
+                align-items:center;
+            }
+            .tasks{
+                background-color:white;
+                margin-top:20px;
+                max-width:250px;
+                border-radius:6px;
+                padding:10px;
+                -webkit-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+                -moz-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+                box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+            }
 		</style>
 	</head>
 	<body>
@@ -181,6 +198,7 @@
 			<img height="50px;" src="https://img.techpowerup.org/200513/essential.png">
             <a href="accounts/logout" class="log">Logout</a>
 		</div>
+
         <div class="homepage" id="home">
 			<div class="ess" style="margin-right:20px;">
                 <img style="margin:25px; border-radius:14px;" height="250px;" src="https://img.techpowerup.org/200513/essential.png">
@@ -192,14 +210,17 @@
                 <div style="margin-top:50px; margin-bottom:20px;">
                     <ul style="color:white; font-size:28px;">
                         <li><a href="#todo">Todo tracker</a></li>
+                        <li><a href="#daily">Daily tasks</a></li>
                         <li><a href="#files">File Container</a></li>
                     </ul>
                 </div>
             </div>
         </div>
+
 		<div class="todos" id="todo">
             <a style="margin-top:70px;" href="#home"><h5>Go back home ↑</h5></a>
-            <form action="{% url 'add' %}" class="f" method="POST">
+            <h3 style="margin:25px; font-size:34px;">Todo Tracker</h3>
+            <form action="{% url 'add_todo' %}" class="f" method="POST">
 				{% csrf_token %}
 				{{ form.text }}
                 <br>
@@ -218,8 +239,8 @@
                     <p class="p">{{ todo.text}}  |  Due to:{{todo.date}}</p>
                     {% endif %}
                     <div style="text-align: center;">
-                        <a href="{% url 'delete' todo.id %}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete/Completed</a>
-                        <form method="post" action="{%url 'edit' todo.id%}">
+                        <a href="{% url 'delete_todo' todo.id %}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete/Completed</a>
+                        <form method="post" action="{%url 'edit_todo' todo.id%}">
                             {%csrf_token%}
                             {{editForm}}
                             <button type="submit" style="border:1px solid black; padding:2px; border-radius:8px;">Edit</button>
@@ -229,8 +250,37 @@
 				{% endfor %}
 			</div>
 		</div>
+
+        <div class="daily" id="daily">
+            <a style="margin-top:70px;" href="#home"><h5>Go back home ↑</h5></a>
+            <h1>Daily tasks</h1>
+
+            <form method="post" action="add_daily_task">
+                {% csrf_token %}
+                {{ dailyTasksForm }}
+                <button type="submit">Create new daily task</button>
+            </form>
+
+            {% for task in dailyTasks%}
+             <div class="tasks">
+                <p class="p">{{ task.text }}</p>
+                {% if task.completed_today %}
+                    <p class="p" style="color: green;">Completed today</p>
+                {% else %}
+                    <p class="p", style="color: red;">Not completed today</p>
+                {% endif %}
+                <br>
+                <a href="{% url 'completed' task.id %}" style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">Completed</a>
+                <br>
+                <br>
+                <a href="{% url 'delete_task' task.id %}" style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">No longer show me this task</a>
+             </div>
+            {% endfor %}
+        </div>
+
         <div class="files" id="files">
             <a style="margin-top:70px;" href="#home"><h5>Go back home ↑</h5></a>
+            <h3 style="margin:25px; font-size:34px;">File manager</h3>
             <form action="{%url 'filepost'%}" method="post" enctype="multipart/form-data" style="border-bottom:2px solid black;">
                 {%csrf_token%}
                 {{fileForm}}

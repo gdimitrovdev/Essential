@@ -1,5 +1,6 @@
 # Django imports
 from django import forms
+from .models import DailyTask
 
 
 # form to make a new to-do
@@ -17,3 +18,10 @@ class EditForm(forms.Form):
 # form to add files to the storage
 class FileForm(forms.Form):
     file = forms.FileField(label='')
+
+
+# form to create a daily repeating task
+class DailyTaskForm(forms.ModelForm):
+    class Meta:
+        model = DailyTask
+        fields = ['text']

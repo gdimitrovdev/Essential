@@ -1,10 +1,11 @@
 # Django imports
 from django.shortcuts import render, redirect
-from .models import Todo, File
-from .forms import TodoForm, EditForm, FileForm
+from .models import Todo, File, DailyTask
+from .forms import TodoForm, EditForm, FileForm, DailyTaskForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 
 @login_required
@@ -20,12 +21,24 @@ def home(request):
     # get user's files
     files = request.user.files.order_by('id')
 
-    context = {'todo_list': todo_list, 'form': form, 'editForm': edit_form, 'fileForm': file_form, 'files': files}
+    # get user's daily tasks
+    daily_tasks = request.user.daily_tasks.all()
+    daily_task_form = DailyTaskForm()
+
+    context = {
+        'todo_list': todo_list,
+        'form': form,
+        'editForm': edit_form,
+        'fileForm': file_form,
+        'files': files,
+        'dailyTasks': daily_tasks,
+        'dailyTasksForm': daily_task_form
+               }
     return render(request, "todoapp/home.html", context)
 
 
 # function to add todos
-def add(request):
+def add_todo(request):
     if request.method == 'POST':
         form = TodoForm(request.POST)
         if form.is_valid():
@@ -36,7 +49,7 @@ def add(request):
 
 
 # function to delete todos
-def delete(request, todo_id):
+def delete_todo(request, todo_id):
     item = request.user.todos.get(pk=todo_id)
     item.delete()
     return redirect('../../#todo')
@@ -59,7 +72,7 @@ def register(request):
 
 
 # edit existing todos
-def edit(request, id):
+def edit_todo(request, id):
     if request.method == 'POST':
         form = EditForm(request.POST)
         if form.is_valid:
@@ -87,3 +100,29 @@ def delete_file(request,id):
     file = File.objects.get(pk=id)
     file.delete()
     return redirect('../../#files')
+
+
+# create daily task
+def add_daily_task(request):
+    if request.method == 'POST':
+        form = DailyTaskForm(request.POST)
+        if form.is_valid():
+            new_daily_task = form.save()
+            new_daily_task.user = request.user
+            new_daily_task.save()
+    return redirect('../#daily')
+
+
+# mark daily task as completed
+def completed(request, id):
+    task = DailyTask.objects.get(pk=id)
+    task.last_completed = timezone.datetime.now().date()
+    task.save()
+    return redirect('../../#daily')
+
+
+# delete daily task
+def delete_task(request, id):
+    task = DailyTask.objects.get(pk=id)
+    task.delete()
+    return redirect('../../#daily')
