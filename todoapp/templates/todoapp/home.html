@@ -145,6 +145,7 @@
                 display:flex;
                 align-items:center;
                 flex-direction:column;
+                padding: 5px;
                 margin-bottom:40px;
                 border-radius:8px;
                 -webkit-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
@@ -160,6 +161,18 @@
                 -webkit-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
                 -moz-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
                 box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
+            }
+            .f{
+                background: #36D1DC;  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                border: 1px solid black;
+                border-radius: 8px;
+                width: 320px;
+                height: 100px;
+                margin: 10px;
+                padding: 3px;
+                text-align: center;
             }
 		</style>
 	</head>
@@ -186,13 +199,9 @@
         </div>
 		<div class="todos" id="todo">
             <a style="margin-top:70px;" href="#home"><h5>Go back home ↑</h5></a>
-            <form action="{% url 'add' %}"  method="POST">
+            <form action="{% url 'add' %}" class="f" method="POST">
 				{% csrf_token %}
-                <p style="color:black;">Enter the task:</p>
-                <br>
 				{{ form.text }}
-                <br>
-                <p style="color:black;">Enter date:</p>
                 <br>
                 {{form.date}}
                 <br>
@@ -208,7 +217,7 @@
                     {% else %}
                     <p class="p">{{ todo.text}}  |  Due to:{{todo.date}}</p>
                     {% endif %}
-                    <div style="display:flex; align-items:center;">
+                    <div style="text-align: center;">
                         <a href="{% url 'delete' todo.id %}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete/Completed</a>
                         <form method="post" action="{%url 'edit' todo.id%}">
                             {%csrf_token%}
