@@ -306,16 +306,18 @@
             var btns = document.querySelectorAll('.complete');
 
             for(i=0; i<btns.length; i++){
-                btns[i].addEventListener('click', function(){
-                    i--;
+                let btn = btns[i];
+                let val = btn.value;
+                btn.addEventListener('click', function(){
+                    console.log(val);
                     $.ajax({
                         url: '/completed/',
                         data: {
-                            'id': btns[i].value,
+                            'id': val,
                         },
                         dataType: 'json',
                         success: function (data) {
-                            var p = btns[i].parentElement.querySelector('.x');
+                            var p = btn.parentElement.querySelector('.x');
                             p.textContent = 'Completed today';
                             p.style.color = 'green';
                         }
