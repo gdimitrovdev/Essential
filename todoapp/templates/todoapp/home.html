@@ -272,12 +272,12 @@
                 <p class="p">{{ task.text }}</p>
                  <br>
                 {% if task.completed_today %}
-                    <p class="p" style="color: green; margin: auto;">Completed today</p>
+                    <p class="p x" style="color: green; margin: auto;">Completed today</p>
                 {% else %}
-                    <p class="p", style="color: red; margin: auto;">Not completed today</p>
+                    <p class="p x", style="color: red; margin: auto;">Not completed today</p>
                 {% endif %}
                  <br><br><br>
-                <a href="{% url 'completed' task.id %}" style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">Completed</a>
+                <button value="{{ task.id }}" class='complete' style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">Completed</button>
                 <br>
                 <br>
                 <a href="{% url 'delete_task' task.id %}" style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">No longer show me this task</a>
@@ -300,6 +300,29 @@
             <a href="{%url 'deleteFile' file.id%}" style="margin-bottom:20px; margin-top:20px;">Delete</a>
             {%endfor%}
         </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            var btns = document.querySelectorAll('.complete');
+
+            for(i=0; i<btns.length; i++){
+                btns[i].addEventListener('click', function(){
+                    i--;
+                    $.ajax({
+                        url: '/completed/',
+                        data: {
+                            'id': btns[i].value,
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var p = btns[i].parentElement.querySelector('.x');
+                            p.textContent = 'Completed today';
+                            p.style.color = 'green';
+                        }
+                    });
+                });
+            }
+        </script>
 	</body>
 </html>
 	

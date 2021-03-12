@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.http import JsonResponse
 
 
 @login_required
@@ -114,11 +115,13 @@ def add_daily_task(request):
 
 
 # mark daily task as completed
-def completed(request, id):
+def completed(request):
+    id = request.GET.get('id', None)
     task = DailyTask.objects.get(pk=id)
     task.last_completed = timezone.datetime.now().date()
     task.save()
-    return redirect('../../#daily')
+    data = {}
+    return JsonResponse(data);
 
 
 # delete daily task
