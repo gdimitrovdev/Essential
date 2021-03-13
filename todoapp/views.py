@@ -50,10 +50,12 @@ def add_todo(request):
 
 
 # function to delete todos
-def delete_todo(request, todo_id):
-    item = request.user.todos.get(pk=todo_id)
+def delete_todo(request):
+    id = request.GET.get('id', None)
+    item = request.user.todos.get(pk=id)
     item.delete()
-    return redirect('../../#todo')
+    data = {}
+    return JsonResponse(data)
 
 
 # register new users
@@ -121,7 +123,7 @@ def completed(request):
     task.last_completed = timezone.datetime.now().date()
     task.save()
     data = {}
-    return JsonResponse(data);
+    return JsonResponse(data)
 
 
 # delete daily task
@@ -130,4 +132,4 @@ def delete_task(request):
     task = DailyTask.objects.get(pk=id)
     task.delete()
     data = {}
-    return JsonResponse(data);
+    return JsonResponse(data)

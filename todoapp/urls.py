@@ -9,7 +9,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
 
     path('add_todo/', views.add_todo, name="add_todo"),
-    path('delete_todo/<todo_id>', views.delete_todo, name="delete_todo"),
+    path('delete_todo/', views.delete_todo, name="delete_todo"),
     path('edit_todo/<path:id>', views.edit_todo, name='edit_todo'),
 
     path('filepost/', views.filepost, name='filepost'),

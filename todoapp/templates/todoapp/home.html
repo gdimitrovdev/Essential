@@ -245,7 +245,7 @@
                     <p class="p">{{ todo.text}}  |  Due to:{{todo.date}}</p>
                     {% endif %}
                     <div style="text-align: center;">
-                        <a href="{% url 'delete_todo' todo.id %}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete/Completed</a>
+                        <button class='del_todo' value="{{ todo.id }}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete/Completed</button>
                         <form method="post" action="{%url 'edit_todo' todo.id%}">
                             {%csrf_token%}
                             {{editForm}}
@@ -343,6 +343,29 @@
                         dataType: 'json',
                         success: function (data) {
                             var div = btn.parentElement;
+                            div.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        </script>
+
+        <!-- Mark a to_do as completed -->
+        <script>
+            var btns = document.querySelectorAll('.del_todo');
+
+            for(i=0; i<btns.length; i++){
+                let btn = btns[i];
+                let val = btn.value;
+                btn.addEventListener('click', function(){
+                    $.ajax({
+                        url: '/delete_todo/',
+                        data: {
+                            'id': val,
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var div = btn.parentElement.parentElement;
                             div.style.display = 'none';
                         }
                     });
