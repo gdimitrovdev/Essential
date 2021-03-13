@@ -17,5 +17,5 @@ urlpatterns = [
 
     path('add_daily_task', views.add_daily_task, name='add_daily_task'),
     path('completed/', views.completed, name='completed'),
-    path('delete_task/<path:id>', views.delete_task, name='delete_task'),
+    path('delete_task/', views.delete_task, name='delete_task'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

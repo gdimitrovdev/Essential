@@ -280,7 +280,7 @@
                 <button value="{{ task.id }}" class='complete' style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">Completed</button>
                 <br>
                 <br>
-                <a href="{% url 'delete_task' task.id %}" style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">No longer show me this task</a>
+                <button value="{{ task.id }}" class="del_daily" style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">No longer show me this task</button>
              </div>
             {% endfor %}
         </div>
@@ -302,6 +302,8 @@
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Mark daily task as completed -->
         <script>
             var btns = document.querySelectorAll('.complete');
 
@@ -309,7 +311,6 @@
                 let btn = btns[i];
                 let val = btn.value;
                 btn.addEventListener('click', function(){
-                    console.log(val);
                     $.ajax({
                         url: '/completed/',
                         data: {
@@ -320,6 +321,29 @@
                             var p = btn.parentElement.querySelector('.x');
                             p.textContent = 'Completed today';
                             p.style.color = 'green';
+                        }
+                    });
+                });
+            }
+        </script>
+
+        <!-- Remove daily task -->
+        <script>
+            var btns = document.querySelectorAll('.del_daily');
+
+            for(i=0; i<btns.length; i++){
+                let btn = btns[i];
+                let val = btn.value;
+                btn.addEventListener('click', function(){
+                    $.ajax({
+                        url: '/delete_task/',
+                        data: {
+                            'id': val,
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var div = btn.parentElement;
+                            div.style.display = 'none';
                         }
                     });
                 });

@@ -125,7 +125,9 @@ def completed(request):
 
 
 # delete daily task
-def delete_task(request, id):
+def delete_task(request):
+    id = request.GET.get('id', None)
     task = DailyTask.objects.get(pk=id)
     task.delete()
-    return redirect('../../#daily')
+    data = {}
+    return JsonResponse(data);
