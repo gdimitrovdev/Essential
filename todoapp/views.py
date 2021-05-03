@@ -120,7 +120,10 @@ def add_daily_task(request):
 def completed(request):
     id = request.GET.get('id', None)
     task = DailyTask.objects.get(pk=id)
-    task.last_completed = timezone.datetime.now().date()
+    if task.completed_today:
+        task.last_completed = None
+    else:
+        task.last_completed = timezone.datetime.now().date()
     task.save()
     data = {}
     return JsonResponse(data)

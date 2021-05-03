@@ -273,11 +273,13 @@
                  <br>
                 {% if task.completed_today %}
                     <p class="p x" style="color: green; margin: auto;">Completed today</p>
+                    <br><br><br>
+                    <button value="{{ task.id }}" class='complete' style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">Not completed</button>
                 {% else %}
                     <p class="p x", style="color: red; margin: auto;">Not completed today</p>
+                    <br><br><br>
+                    <button value="{{ task.id }}" class='complete' style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">Completed</button>
                 {% endif %}
-                 <br><br><br>
-                <button value="{{ task.id }}" class='complete' style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">Completed</button>
                 <br>
                 <br>
                 <button value="{{ task.id }}" class="del_daily" style="border:1px solid black; padding:5px; border-radius:8px; margin: 5px;">No longer show me this task</button>
@@ -318,9 +320,18 @@
                         },
                         dataType: 'json',
                         success: function (data) {
-                            var p = btn.parentElement.querySelector('.x');
-                            p.textContent = 'Completed today';
-                            p.style.color = 'green';
+                            if (btn.textContent == 'Completed'){
+                                var p = btn.parentElement.querySelector('.x');
+                                btn.textContent = 'Not completed';
+                                p.textContent = 'Completed today';
+                                p.style.color = 'green';
+                            }
+                            else {
+                                var p = btn.parentElement.querySelector('.x');
+                                btn.textContent = 'Completed';
+                                p.textContent = 'Not completed today';
+                                p.style.color = 'red';
+                            }
                         }
                     });
                 });
