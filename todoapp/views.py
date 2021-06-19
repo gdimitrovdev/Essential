@@ -38,6 +38,7 @@ def home(request):
     return render(request, "todoapp/home.html", context)
 
 
+@login_required
 # function to add todos
 def add_todo(request):
     if request.method == 'POST':
@@ -49,6 +50,7 @@ def add_todo(request):
     return redirect('../#todo')
 
 
+@login_required
 # function to delete todos
 def delete_todo(request):
     id = request.GET.get('id', None)
@@ -74,6 +76,7 @@ def register(request):
     return render(request, "registration/register.html", context)
 
 
+@login_required
 # edit existing todos
 def edit_todo(request, id):
     if request.method == 'POST':
@@ -82,12 +85,18 @@ def edit_todo(request, id):
             new_text = request.POST['text']
             new_date = request.POST['date_year']+'-'+request.POST['date_month']+'-'+request.POST['date_day']
             todo = Todo.objects.get(pk=id)
+
+            # check if the action is illegal
+            if todo.user != request.user:
+                return redirect('/')
+
             todo.text = new_text
             todo.date = new_date
             todo.save()
     return redirect('../../#todo')
 
 
+@login_required
 # add files to user's storage
 def filepost(request):
     if request.method == 'POST':
@@ -98,13 +107,20 @@ def filepost(request):
     return redirect('../#files')
 
 
+@login_required
 # delete files from storage
 def delete_file(request,id):
     file = File.objects.get(pk=id)
+
+    # check if this is an invalid action
+    if file.user != request.user:
+        return redirect('/')
+
     file.delete()
     return redirect('../../#files')
 
 
+@login_required
 # create daily task
 def add_daily_task(request):
     if request.method == 'POST':
@@ -116,6 +132,7 @@ def add_daily_task(request):
     return redirect('../#daily')
 
 
+@login_required
 # mark daily task as completed
 def completed(request):
     id = request.GET.get('id', None)
@@ -129,6 +146,7 @@ def completed(request):
     return JsonResponse(data)
 
 
+@login_required
 # delete daily task
 def delete_task(request):
     id = request.GET.get('id', None)
