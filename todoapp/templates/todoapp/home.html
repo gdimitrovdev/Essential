@@ -297,7 +297,7 @@
             </form>
             {%for file in files%}
             <div class="cl2">
-                <a href="{{file.file.url}}" download>{{file.file.name}}</a>
+                <a href="/download/{{ file.id }}?next=/" download>{{file.file.name}}</a>
             </div>
             <a href="{%url 'deleteFile' file.id%}" style="margin-bottom:20px; margin-top:20px;">Delete</a>
             {%endfor%}

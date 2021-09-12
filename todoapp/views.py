@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 
 
 @login_required
@@ -154,3 +154,11 @@ def delete_task(request):
     task.delete()
     data = {}
     return JsonResponse(data)
+
+
+@login_required
+# download view
+def download(request, file_id):
+    file = File.objects.get(pk=file_id)
+    print(file.file.path)
+    return FileResponse(open(file.file.path, 'rb'))

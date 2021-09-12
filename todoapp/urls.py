@@ -18,4 +18,7 @@ urlpatterns = [
     path('add_daily_task', views.add_daily_task, name='add_daily_task'),
     path('completed/', views.completed, name='completed'),
     path('delete_task/', views.delete_task, name='delete_task'),
+
+    # a path to download a file
+    path('download/<path:file_id>', views.download, name='download')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
