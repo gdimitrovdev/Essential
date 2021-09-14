@@ -44,7 +44,7 @@ def add_todo(request):
     if request.method == 'POST':
         form = TodoForm(request.POST)
         if form.is_valid():
-            date = request.POST['date_year']+'-'+request.POST['date_month']+'-'+request.POST['date_day']
+            date = request.POST['date']
             new_todo = Todo(user=request.user, text=request.POST['text'], date=date)
             new_todo.save()
     return redirect('../#todo')
@@ -83,7 +83,7 @@ def edit_todo(request, id):
         form = EditForm(request.POST)
         if form.is_valid:
             new_text = request.POST['text']
-            new_date = request.POST['date_year']+'-'+request.POST['date_month']+'-'+request.POST['date_day']
+            new_date = request.POST['date']
             todo = Todo.objects.get(pk=id)
 
             # check if the action is illegal
