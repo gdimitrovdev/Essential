@@ -6,13 +6,13 @@ from .models import DailyTask
 # form to make a new to-do
 class TodoForm(forms.Form):
     text = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'formclass'}), label="Enter text:")
-    date = forms.DateField(widget=forms.SelectDateWidget, label='Enter Date:')
+    date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), label='Enter Date:')
 
 
 # form to edit to-do
 class EditForm(forms.Form):
     text = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'formclass'}), label='')
-    date = forms.DateField(label='', widget=forms.SelectDateWidget)
+    date = forms.DateField(label='', widget=forms.widgets.DateInput(attrs={'type': 'date'}))
 
 
 # form to add files to the storage
