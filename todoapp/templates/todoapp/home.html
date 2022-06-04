@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -201,13 +203,13 @@
 	</head>
 	<body>
 		<div class="topnav">
-			<img height="50px;" src="https://img.techpowerup.org/200513/essential.png">
+			<img height="50px;" src="{% static 'todoapp/logo.png' %}">
             <a href="accounts/logout" class="log">Logout</a>
 		</div>
 
         <div class="homepage" id="home">
 			<div class="ess" style="margin-right:20px;">
-                <img style="margin:25px; border-radius:14px;" height="250px;" src="https://img.techpowerup.org/200513/essential.png">
+                <img style="margin:25px; border-radius:14px;" height="250px;" src="{% static 'todoapp/logo.png' %}">
                 <br>
                 <h3 style="color:white; margin:25px; font-size:34px;">Everything you need to organize your day</h3>
             </div>
