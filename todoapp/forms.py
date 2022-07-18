@@ -11,8 +11,8 @@ class TodoForm(forms.Form):
 
 # form to edit to-do
 class EditForm(forms.Form):
-    text = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'formclass'}), label='')
-    date = forms.DateField(label='', widget=forms.widgets.DateInput(attrs={'type': 'date'}))
+    text = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'formclass'}), label='', required=False)
+    date = forms.DateField(label='', widget=forms.widgets.DateInput(attrs={'type': 'date'}), required=False)
 
 
 # form to add files to the storage

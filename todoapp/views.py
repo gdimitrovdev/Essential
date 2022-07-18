@@ -1,6 +1,6 @@
 # Django imports
 from django.shortcuts import render, redirect
-from .models import Todo, File, DailyTask
+from .models import Todo, File
 from .forms import TodoForm, EditForm, FileForm, DailyTaskForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
@@ -84,7 +84,9 @@ def edit_todo(request, id):
         if form.is_valid:
             new_text = request.POST['text']
             new_date = request.POST['date']
-            todo = Todo.objects.get(pk=id)
+            todo = request.user.todos.get(pk=id)
+            if not new_text: new_text = todo.text
+            if not new_date: new_date = todo.date
 
             # check if the action is illegal
             if todo.user != request.user:
@@ -110,7 +112,7 @@ def filepost(request):
 @login_required
 # delete files from storage
 def delete_file(request,id):
-    file = File.objects.get(pk=id)
+    file = request.user.files.get(pk=id)
 
     # check if this is an invalid action
     if file.user != request.user:
@@ -136,7 +138,7 @@ def add_daily_task(request):
 # mark daily task as completed
 def completed(request):
     id = request.GET.get('id', None)
-    task = DailyTask.objects.get(pk=id)
+    task = request.user.daily_tasks.get(pk=id)
     if task.completed_today:
         task.last_completed = None
     else:
@@ -150,7 +152,7 @@ def completed(request):
 # delete daily task
 def delete_task(request):
     id = request.GET.get('id', None)
-    task = DailyTask.objects.get(pk=id)
+    task = request.user.daily_tasks.get(pk=id)
     task.delete()
     data = {}
     return JsonResponse(data)
@@ -159,6 +161,6 @@ def delete_task(request):
 @login_required
 # download view
 def download(request, file_id):
-    file = File.objects.get(pk=file_id)
+    file = request.user.files.get(pk=file_id)
     print(file.file.path)
     return FileResponse(open(file.file.path, 'rb'))
