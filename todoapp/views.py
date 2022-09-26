@@ -59,6 +59,16 @@ def delete_todo(request):
     data = {}
     return JsonResponse(data)
 
+@login_required
+# function to complete todos
+def complete_todo(request):
+    id = request.GET.get('id', None)
+    item = request.user.todos.get(pk=id)
+    item.complete = True
+    item.save()
+    data = {}
+    return JsonResponse(data)
+
 
 # register new users
 def register(request):

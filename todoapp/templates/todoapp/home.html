@@ -62,6 +62,7 @@
 			    color:black;
 			    font-size:17px;
 			    margin-bottom:1px;
+			    margin-top:1px;
 			}
 			.btn-circle.btn-lg {
               width: 50px;
@@ -241,13 +242,19 @@
 			<div>
 				{% for todo in todo_list %}
                 <div class="cl">
-                    {% if todo.is_passed %}
-                    <p class="p" style="color: red">{{ todo.text}}  |  Due to:{{todo.date}}</p>
+                    {% if todo.complete %}
+                    <p class="p" style="color: #66ff00">{{ todo.text}}</p>
                     {% else %}
-                    <p class="p">{{ todo.text}}  |  Due to:{{todo.date}}</p>
+                    <p class="p">{{ todo.text}}</p>
+                    {% endif %}
+                    {% if todo.is_passed %}
+                    <p class="p" style="color: red">Due to:{{todo.date}}</p>
+                    {% else %}
+                    <p class="p">Due to:{{todo.date}}</p>
                     {% endif %}
                     <div style="text-align: center;">
-                        <button class='del_todo' value="{{ todo.id }}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete/Completed</button>
+                        <button class='cmp_todo' value="{{ todo.id }}" style="border:1px solid black; padding:2px; border-radius:8px;">Completed</button>
+                        <button class='del_todo' value="{{ todo.id }}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete</button>
                         <form method="post" action="{%url 'edit_todo' todo.id%}">
                             {%csrf_token%}
                             {{editForm}}
@@ -363,7 +370,7 @@
             }
         </script>
 
-        <!-- Mark a to_do as completed -->
+        <!-- Delete a to-do -->
         <script>
             var btns = document.querySelectorAll('.del_todo');
 
@@ -380,6 +387,29 @@
                         success: function (data) {
                             var div = btn.parentElement.parentElement;
                             div.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        </script>
+
+        <!-- Mark a to_do as completed -->
+        <script>
+            var btns = document.querySelectorAll('.cmp_todo');
+
+            for(i=0; i<btns.length; i++){
+                let btn = btns[i];
+                let val = btn.value;
+                btn.addEventListener('click', function(){
+                    $.ajax({
+                        url: '/complete_todo/',
+                        data: {
+                            'id': val,
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var p = btn.parentElement.parentElement.querySelector('p');
+                            p.style.color = '#66ff00';
                         }
                     });
                 });
