@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse("postgres://essentialdb_user:BWrdH5G1j2LYf2NcIvkqliebrpIaWUZ2@dpg-cdpsp4ta49942u2ltklg-a.frankfurt-postgres.render.com/essentialdb")
+    'default': dj_database_url.parse("postgres://vkvkeuvl:GLJJqBhSo8RoE5LCFVYL_KMFC7qBdwa0@trumpet.db.elephantsql.com/vkvkeuvl")
 }
 
 
