@@ -57,6 +57,7 @@
 			.log{
 				font-size:20px;
 				padding:6px;
+                border-radius: 10px;
 			}
 			.p{
 			    color:black;
@@ -205,7 +206,10 @@
 	<body>
 		<div class="topnav">
 			<img height="50px;" src="{% static 'todoapp/logo.png' %}">
-            <a href="accounts/logout" class="log">Logout</a>
+            <form method="post" action="{% url 'logout' %}?next=/" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="log">Logout</button>
+            </form>
 		</div>
 
         <div class="homepage" id="home">
