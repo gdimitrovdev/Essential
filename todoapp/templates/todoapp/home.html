@@ -201,6 +201,15 @@
                 -moz-box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
                 box-shadow: 6px 6px 18px -2px rgba(102,102,102,1);
             }
+            .todo-actions {
+                display: flex;
+                flex-direction: column;
+            }
+            .edit-form {
+                display: flex;
+                flex-direction: row;
+                padding: 0px;
+            }
 		</style>
 	</head>
 	<body>
@@ -256,10 +265,10 @@
                     {% else %}
                     <p class="p">Due to:{{todo.date}}</p>
                     {% endif %}
-                    <div style="text-align: center;">
+                    <div style="text-align: center;" class="todo-actions">
                         <button class='cmp_todo' value="{{ todo.id }}" style="border:1px solid black; padding:2px; border-radius:8px;">Completed</button>
                         <button class='del_todo' value="{{ todo.id }}" style="border:1px solid black; padding:2px; border-radius:8px;">Delete</button>
-                        <form method="post" action="{%url 'edit_todo' todo.id%}">
+                        <form method="post" action="{%url 'edit_todo' todo.id%}" class="edit-form">
                             {%csrf_token%}
                             {{editForm}}
                             <button type="submit" style="border:1px solid black; padding:2px; border-radius:8px;">Edit</button>
