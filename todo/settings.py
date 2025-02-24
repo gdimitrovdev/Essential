@@ -147,3 +147,8 @@ LOGOUT_REDIRECT_URL='/'
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://essential.intenral.mazna.tech',
+    'https://essential.mazna.tech',
+]
